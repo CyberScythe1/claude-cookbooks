@@ -84,8 +84,8 @@ developers practical, copy-able ways to build with **Claude** (the Anthropic LLM
 | P8 | Implement the fix on a feature branch (`CyberScythe1/fix-533-…`) | ✅ Done — commit `ec6afa8` |
 | P9 | Validate the fix + rerun proof | ✅ Done |
 | P10 | Commit fix; commit tracking doc (separate branch) | ✅ Done (fix committed; doc commit next) |
-| P11 | Push both branches to the fork | ⏳ Pending |
-| P12 | Update this doc with explanation + proof; final review | ⏳ Pending |
+| P11 | Push both branches to the fork | ✅ Done (2026-09-15) |
+| P12 | Update this doc with explanation + proof; final review | ✅ Done |
 ---
 
 ## 5. Actions & Findings Log (chronological — every entry states its reasoning)
@@ -244,3 +244,20 @@ transparency).
   other messages identical).
 - `authors.yaml` was modified only transiently during the proof runs and restored via
   `git checkout` after each run.
+### 2026-09-15 · P11 — pushed everything to the fork
+- `git push -u origin CyberScythe1/fix-533-verify-registry-root-fallback` → fork branch at `ec6afa8`.
+- `git push -u origin docs/tracking-533` → fork branch at `b883ad1` (this document).
+- **Reason:** the user asked that everything be committed to the fork under their account
+  (`CyberScythe1`). Verified via the GitHub API that both branches exist on the fork with the
+  expected SHAs and that the fork's `main` still matches upstream (`a97b9a2`).
+- Branch URLs:
+  - Fix:    https://github.com/CyberScythe1/claude-cookbooks/tree/CyberScythe1/fix-533-verify-registry-root-fallback
+  - Tracking: https://github.com/CyberScythe1/claude-cookbooks/tree/docs/tracking-533
+
+### 2026-09-15 · P12 — final review
+- All plan items complete. Fix committed (`ec6afa8`), validated (Section 7.3), tracking document
+  finalized and committed (`b883ad1`), both pushed to the fork.
+- A PR to upstream (`anthropics/claude-cookbooks`) was intentionally **not** opened: the task asked
+  to commit to the fork. It can be opened from the fork on request; note the pre-existing stale PRs
+  #540 (closed) and #683 (open since 2026-05-30) already target this same issue, so upstream
+  maintainers would decide which to reconcile.
