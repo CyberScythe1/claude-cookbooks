@@ -256,8 +256,8 @@ transparency).
   - Tracking: https://github.com/CyberScythe1/claude-cookbooks/tree/docs/tracking-533
 
 ### 2026-09-15 · P12 — final review
-- All plan items complete. Fix committed (`ec6afa8`), validated (Section 7.3), tracking document
-  finalized and committed (`b883ad1`), both pushed to the fork.
+- All plan items complete. Fix committed (`ec6afa8`), validated (Section 7.3), this tracking
+  document finalized (branch tip `7380b8a`), both pushed to the fork.
 - A PR to upstream (`anthropics/claude-cookbooks`) was intentionally **not** opened: the task asked
   to commit to the fork. It can be opened from the fork on request; note the pre-existing stale PRs
   #540 (closed) and #683 (open since 2026-05-30) already target this same issue, so upstream
