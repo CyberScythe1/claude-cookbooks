@@ -244,6 +244,7 @@ transparency).
   other messages identical).
 - `authors.yaml` was modified only transiently during the proof runs and restored via
   `git checkout` after each run.
+
 ### 2026-09-15 · P11 — pushed everything to the fork
 - `git push -u origin CyberScythe1/fix-533-verify-registry-root-fallback` → fork branch at `ec6afa8`.
 - `git push -u origin docs/tracking-533` → fork branch at `b883ad1` (this document).
