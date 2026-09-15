@@ -87,6 +87,12 @@ developers practical, copy-able ways to build with **Claude** (the Anthropic LLM
 | P11 | Push both branches to the fork | ✅ Done (2026-09-15) |
 | P12 | Update this doc with explanation + proof; final review | ✅ Done |
 | P13 | Open PR to upstream + comment on issue #533 (user request) | ✅ Done — PR #875 |
+| P14 | Triage & select second issue (#708: `.npmrc` not gitignored) | ✅ Done |
+| P15 | Reproduce #708 on `main` (proof before fix) | ✅ Done |
+| P16 | Implement #708 fix on branch `CyberScythe1/fix-708-npmrc-gitignore` | ✅ Done — commit `fafd449` |
+| P17 | Validate #708 fix + rerun proof | ✅ Done |
+| P18 | Commit #708 fix; append #708 records to this tracking doc | ✅ Done (doc append in progress) |
+| P19 | Push branches to fork; open PR + comment on issue #708 | ⏳ Pending |
 ---
 
 ## 5. Actions & Findings Log (chronological — every entry states its reasoning)
@@ -275,3 +281,75 @@ transparency).
   https://github.com/anthropics/claude-cookbooks/issues/533#issuecomment-5677421814
   pointing at PR #875 and explicitly flagging that #540 was closed-unmerged (2026-04-22) and #683
   is an inactive open PR (since 2026-05-30), i.e. the fix is genuinely unmerged on `main`.
+
+---
+
+## 8. Second Selected Issue — GitHub Issue #708
+
+- **URL:** https://github.com/anthropics/claude-cookbooks/issues/708
+- **Title:** `Security: npmrc files without gitignore`
+- **Labels:** none · **State:** open · **Author:** shunfeng8421 · **Opened:** 2026-06-14 · **Comments:** 1
+- **File affected:** `.gitignore`
+- **Reporter's claim (from a code-health audit):** "npmrc files found without gitignore coverage.
+  Rotate auth tokens and add to gitignore." `.npmrc` files commonly hold
+  `//registry.npmjs.org/:_authToken=...`; without an ignore rule a contributor who creates one
+  locally could silently commit their auth token.
+- **Verified on `main` (a97b9a2):** `.gitignore` contains no `.npmrc` rule; three *tracked*
+  template files exist under `managed_agents/self_hosted_sandboxes/{cf,cf-worker,vercel}/.npmrc`
+  (each contains only `registry=https://registry.npmjs.org/`).
+
+### Triage reasoning (why #708, and why it qualifies as "not yet implemented")
+- Re-ran the full cross-reference: all 80 open issues vs all 255 open PRs. The remaining
+  *unclaimed* issues are proposals/ideas/questions; every concrete bug already has at least one
+  open PR.
+- #708's only implementing PR, **#725** (RudrenduPaul, opened 2026-06-21), has **zero comments and
+  zero maintainer activity for ~3 months** — a stale claim, same situation as #533's #540/#683.
+  The issue's single comment (absol761, 2026-08-16) asks to pick the issue up, but no PR ever
+  followed.
+- The fix is small, security-relevant, and **fully verifiable offline** with `git check-ignore`
+  (no API key, no network).
+- Follows the task's established precedent: implement a vetted fix for a genuinely open issue and
+  let upstream reconcile duplicate PRs.
+
+### 2026-09-15 · P15 — proof of the gap BEFORE the fix (repro transcript)
+```
+$ Set-Content .npmrc  '//registry.npmjs.org/:_authToken=test-do-not-leak'
+$ git status --porcelain
+?? .npmrc                       ← VISIBLE to git: would be committed
+$ git check-ignore -v .npmrc
+(no output)                     ← exit 1 = NOT ignored (the gap)
+```
+(Test file removed immediately after capture; `git status` clean again.)
+
+### 2026-09-15 · P16 — the fix (branch `CyberScythe1/fix-708-npmrc-gitignore`)
+`.gitignore` gains a new `# npm` section:
+```gitignore
+# npm
+.npmrc
+# npmrc files committed intentionally (sandbox templates; contain no auth tokens)
+!managed_agents/**/.npmrc
+```
+The `.npmrc` rule blocks token-bearing files repo-wide; the `!managed_agents/**/.npmrc` negation
+exempts the intentional sandbox template files — the same "ignore + re-include fixture" pattern
+the repo already uses for `managed_agents/example_data/mongodb_on_cma/seed_transactions.jsonl`.
+
+### 2026-09-15 · P17 — validation (post-fix transcripts)
+- **Root `.npmrc` now ignored:** `git check-ignore -v .npmrc` → `.gitignore:146:.npmrc` (exit 0);
+  `git status --porcelain` no longer lists it.
+- **Nested new file ignored:** `third_party/__ignorecheck__/.npmrc` → hidden from `git status`.
+- **Negation works:** a *new* `.npmrc` under `managed_agents/self_hosted_sandboxes/` remains
+  visible to git (`?? ...`) so the template pattern still works.
+- **Existing files untouched:** `git ls-files` still lists the 3 sandbox `.npmrc` files; final
+  `git status` clean apart from `.gitignore`.
+- All temporary test files/directories created during validation were removed.
+
+### 2026-09-15 · P18 — commit
+- `fafd449 fix(security): gitignore .npmrc to prevent auth token leaks`
+  (author: phoenix_king / `73518913+CyberScythe1@users.noreply.github.com`), body references
+  `Fixes #708`; 1 file changed (+5).
+- **Reasoning for the exact rule set:** the negation mirrors the maintainers' own precedent for
+  intentionally checked-in files under a broad ignore pattern, and it keeps the three committed
+  templates from confusing future contributors (`git status` would silently hide new files there
+  otherwise).
+
+### 2026-09-15 · P19 — push and PR (next; recorded once done)
