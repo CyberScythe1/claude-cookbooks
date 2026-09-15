@@ -92,7 +92,7 @@ developers practical, copy-able ways to build with **Claude** (the Anthropic LLM
 | P16 | Implement #708 fix on branch `CyberScythe1/fix-708-npmrc-gitignore` | ✅ Done — commit `fafd449` |
 | P17 | Validate #708 fix + rerun proof | ✅ Done |
 | P18 | Commit #708 fix; append #708 records to this tracking doc | ✅ Done (doc append in progress) |
-| P19 | Push branches to fork; open PR + comment on issue #708 | ⏳ Pending |
+| P19 | Push branches to fork; open PR + comment on issue #708 | ✅ Done — PR #876 |
 ---
 
 ## 5. Actions & Findings Log (chronological — every entry states its reasoning)
@@ -352,4 +352,9 @@ the repo already uses for `managed_agents/example_data/mongodb_on_cma/seed_trans
   templates from confusing future contributors (`git status` would silently hide new files there
   otherwise).
 
-### 2026-09-15 · P19 — push and PR (next; recorded once done)
+### 2026-09-15 · P19 — pushed and opened PR #876
+- `git push origin docs/tracking-533` → `7dbbf0d` (this document).
+- `git push -u origin CyberScythe1/fix-708-npmrc-gitignore` → `fafd449` (the fix).
+- `POST /repos/anthropics/claude-cookbooks/pulls` → **PR #876** https://github.com/anthropics/claude-cookbooks/pull/876 (head `CyberScythe1:CyberScythe1/fix-708-npmrc-gitignore`, base `main`).
+- `POST /repos/anthropics/claude-cookbooks/issues/708/comments` → comment https://github.com/anthropics/claude-cookbooks/issues/708#issuecomment-5677795377 pointing at PR #876 and noting PR #725 is stale (no maintainer activity since 2026-06-21).
+- **Reason/decision note:** the user's earlier preference for issue #533 was to also open a PR and comment on the issue, so the same pattern was applied here ("same order of operations").
