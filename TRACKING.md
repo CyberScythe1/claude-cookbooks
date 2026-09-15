@@ -91,7 +91,7 @@ developers practical, copy-able ways to build with **Claude** (the Anthropic LLM
 | P15 | Reproduce #708 on `main` (proof before fix) | ✅ Done |
 | P16 | Implement #708 fix on branch `CyberScythe1/fix-708-npmrc-gitignore` | ✅ Done — commit `fafd449` |
 | P17 | Validate #708 fix + rerun proof | ✅ Done |
-| P18 | Commit #708 fix; append #708 records to this tracking doc | ✅ Done (doc append in progress) |
+| P18 | Commit #708 fix; append #708 records to this tracking doc | ✅ Done (fix `fafd449`; doc appended in `7dbbf0d`) |
 | P19 | Push branches to fork; open PR + comment on issue #708 | ✅ Done — PR #876 |
 ---
 
@@ -358,3 +358,26 @@ the repo already uses for `managed_agents/example_data/mongodb_on_cma/seed_trans
 - `POST /repos/anthropics/claude-cookbooks/pulls` → **PR #876** https://github.com/anthropics/claude-cookbooks/pull/876 (head `CyberScythe1:CyberScythe1/fix-708-npmrc-gitignore`, base `main`).
 - `POST /repos/anthropics/claude-cookbooks/issues/708/comments` → comment https://github.com/anthropics/claude-cookbooks/issues/708#issuecomment-5677795377 pointing at PR #876 and noting PR #725 is stale (no maintainer activity since 2026-06-21).
 - **Reason/decision note:** the user's earlier preference for issue #533 was to also open a PR and comment on the issue, so the same pattern was applied here ("same order of operations").
+
+### 2026-09-15 · P19 wrap-up — post-push verification (proof of external state)
+- `GET /repos/anthropics/claude-cookbooks/pulls/876` → `state=open`, `mergeable=true`,
+  `commits=1`, `changed_files=1`, head `fafd449` on `CyberScythe1:fix-708-npmrc-gitignore`.
+- Issue #708 comment confirmed live: `5677795377` by `CyberScythe1`
+  (https://github.com/anthropics/claude-cookbooks/issues/708#issuecomment-5677795377).
+- `git log origin/<branch>..<branch>` empty for both `docs/tracking-533` and
+  `CyberScythe1/fix-708-npmrc-gitignore` → every commit (fix `fafd449`; doc `7dbbf0d`,
+  `94bf311`) is on the fork, nothing pending locally.
+- Plan table P18 line corrected — it briefly read "doc append in progress" even though the
+  append had already landed in `7dbbf0d`. **Reasoning for the edit:** a tracker that contains
+  stale state is worse than no tracker; the doc's own convention (see §5) is that every status
+  must match reality at commit time.
+- **Second-issue task COMPLETE** — identical order of operations to the #533 cycle
+  (triage → repro → fix → validate → commit → push/PR/comment → record), P14→P19 all ✅,
+  PR #876 open and awaiting maintainer review. `mergeable_state` is CI-gated exactly as for
+  PR #875, so "blocked" there is expected, not a defect.
+
+---
+*Tracker maintained by Cline for user `CyberScythe1`. Last update: 2026-09-15 — second-issue
+(#708) cycle finished. Reasoning for this closing block: the task instructions require proof
+and completion markers, so every cycle ends with verifiable external state (open PR + live
+issue comment + pushed commits) rather than only local claims.*
