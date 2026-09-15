@@ -86,6 +86,7 @@ developers practical, copy-able ways to build with **Claude** (the Anthropic LLM
 | P10 | Commit fix; commit tracking doc (separate branch) | ✅ Done (fix committed; doc commit next) |
 | P11 | Push both branches to the fork | ✅ Done (2026-09-15) |
 | P12 | Update this doc with explanation + proof; final review | ✅ Done |
+| P13 | Open PR to upstream + comment on issue #533 (user request) | ✅ Done — PR #875 |
 ---
 
 ## 5. Actions & Findings Log (chronological — every entry states its reasoning)
@@ -262,3 +263,15 @@ transparency).
   to commit to the fork. It can be opened from the fork on request; note the pre-existing stale PRs
   #540 (closed) and #683 (open since 2026-05-30) already target this same issue, so upstream
   maintainers would decide which to reconcile.
+
+### 2026-09-15 · P13 — opened PR #875 and commented on issue #533 (user follow-up request)
+- **Reason:** the user chose "Open PR but also comment on issue #533 pointing to the PR and noting
+  the stale duplicates (#540/#683)". Recording it here per the "every change is reasoned" rule.
+- `POST /repos/anthropics/claude-cookbooks/pulls` → **PR #875**
+  https://github.com/anthropics/claude-cookbooks/pull/875
+  (head `CyberScythe1:CyberScythe1/fix-533-verify-registry-root-fallback`, base `main`), body
+  summarizes the fix, why now (stale #540/#683), and the testing transcript.
+- `POST /repos/anthropics/claude-cookbooks/issues/533/comments` → comment
+  https://github.com/anthropics/claude-cookbooks/issues/533#issuecomment-5677421814
+  pointing at PR #875 and explicitly flagging that #540 was closed-unmerged (2026-04-22) and #683
+  is an inactive open PR (since 2026-05-30), i.e. the fix is genuinely unmerged on `main`.
